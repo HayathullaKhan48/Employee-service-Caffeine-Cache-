@@ -40,9 +40,9 @@ public class EmployeeController {
         return service.updateAll(employeeId, request);
     }
 
-    @PatchMapping("/updateEmployeeEmailAddress/{employeeId}")
-    public EmployeeResponse updateEmailAddress(@PathVariable Long employeeId, @RequestParam String email) {
-        return service.updateEmailAddress(employeeId, email);
+    @PatchMapping("/updateEmployeeEmailAddress/{employeeId}/{emailAddress}")
+    public EmployeeResponse updateEmailAddress(@PathVariable Long employeeId, @PathVariable String emailAddress) {
+        return service.updateEmailAddress(employeeId, emailAddress);
     }
 
     @DeleteMapping("/delete/{employeeId}")

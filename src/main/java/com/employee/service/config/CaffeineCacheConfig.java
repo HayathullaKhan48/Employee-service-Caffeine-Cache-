@@ -1,8 +1,9 @@
 package com.employee.service.config;
 
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,15 +14,16 @@ import java.util.concurrent.TimeUnit;
 public class CaffeineCacheConfig {
 
     @Bean
-    public CacheProperties.Caffeine<Object, Object> caffeineConfig() {
-        return CacheProperties.Caffeine.newBuilder()
+    public Caffeine<Object, Object> caffeineConfig() {
+        return Caffeine.newBuilder()
                 .expireAfterWrite(10, TimeUnit.MINUTES)
                 .maximumSize(500);
     }
 
     @Bean
     public CacheManager cacheManager(Caffeine<Object, Object> caffeine) {
-        CaffeineCacheManager manager = new CaffeineCacheManager("employees", "employee", "employeePhone");
+        CaffeineCacheManager manager =
+                new CaffeineCacheManager("employees", "employee", "employeePhone");
         manager.setCaffeine(caffeine);
         return manager;
     }
